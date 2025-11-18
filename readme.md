@@ -3,6 +3,7 @@
 This plugin enables the use of invisible item frames for survival players.
 
 Invisible item frames are crafted by surrounding an item frame with 8 glass panes.
+
 ![Recipe Screenshot](./RecipeExample.png)
 
 In 1.17+, an invisible glow item frame can be crafted by surrounding a glow item frame with 8 glass panes.
