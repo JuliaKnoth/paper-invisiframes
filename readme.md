@@ -1,47 +1,35 @@
-# Survival Invisiframes
+# Paper Invisiframes
 
-This plugin enables the use of 1.16's invisible item frames for survival players
+This plugin enables the use of invisible item frames for survival players.
 
-Invisible item frames are crafted similar to tipped arrows - one lingering invisibility potion surrounded by 8 item frames\
-![Recipe Screenshot](https://i.imgur.com/RtX84ic.png)
+Invisible item frames are crafted by surrounding an item frame with 8 glass panes.
+![Recipe Screenshot](./RecipeExample.png)
 
-In 1.17+, an invisible item frame can be crafted with a glow ink sac to create a glowing invisible item frame
+In 1.17+, an invisible glow item frame can be crafted by surrounding a glow item frame with 8 glass panes.
 
 ## Permissions
 Permission | Description
 --- | ---
-`survivalinvisiframes.place` | Allows the player to place an invisible item frame (enabled by default)
-`survivalinvisiframes.craft`| Allows the player to craft an invisible item frame (enabled by default)
-`survivalinvisiframes.cmd` | Allows the player to run commands from this plugin
-`survivalinvisiframes.reload` | Permission to run `/iframe reload`
-`survivalinvisiframes.forcerecheck` | Permission to run `/iframe force-recheck`
-`survivalinvisiframes.get` | Permission to run `/iframe get`
-`survivalinvisiframes.setitem` | Permission to run `/iframe setitem`
+`paperinvisiframes.place` | Allows the player to place an invisible item frame (enabled by default)
+`paperinvisiframes.craft`| Allows the player to craft an invisible item frame (enabled by default)
+`paperinvisiframes.cmd` | Allows the player to run commands from this plugin
+`paperinvisiframes.reload` | Permission to run `/iframe reload`
+`paperinvisiframes.forcerecheck` | Permission to run `/iframe force-recheck`
+`paperinvisiframes.get` | Permission to run `/iframe get`
 
 ## Commands
-Permission required for all commands: `survivalinvisiframes.cmd`
+Permission required for all commands: `paperinvisiframes.cmd`
 
 Command | Description | Permission
 --- | --- | ---
-`/iframe` or `/iframe get` | Gives the player an invisible item frame | `survivalinvisiframes.get`
-`/iframe reload` | Reloads the config | `survivalinvisiframes.reload`
-`/iframe force-recheck` | Rechecks all loaded invisible item frames to add/remove slimes manually | `survivalinvisiframes.forcerecheck`
-`/iframe setitem` | Sets the recipe center item to the held item | `survivalinvisiframes.setitem`
+`/iframe` | Shows all commands, plugin creators and the plugin verion | `none`
+`/iframe get` | Gives the player an invisible item frame | `paperinvisiframes.get`
+`/iframe reload` | Reloads the config | `paperinvisiframes.reload`
+`/iframe force-recheck` | Rechecks all loaded invisible item frames to apply glowing effect based on config | `paperinvisiframes.forcerecheck`
 
 ## Config
 ```yaml
 # Whether or not to enable invisible item frames glowing when there's no item in them
 # This will also make them visible when there's no item in them
 item-frames-glow: true
-
-# The item in the center of the recipe
-# Recommended to use "/iframe setitem" to change this
-recipe:
-  ==: org.bukkit.inventory.ItemStack
-  v: 2567
-  type: LINGERING_POTION
-  meta:
-    ==: ItemMeta
-    meta-type: POTION
-    potion-type: minecraft:invisibility
 ```

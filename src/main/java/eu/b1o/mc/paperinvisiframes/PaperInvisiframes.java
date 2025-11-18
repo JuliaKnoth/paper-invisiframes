@@ -26,6 +26,10 @@ public class PaperInvisiframes extends JavaPlugin implements Listener
     private NamespacedKey invisibleGlowingRecipe;
     private static NamespacedKey invisibleKey;
     
+    public static NamespacedKey getInvisibleKey() {
+        return invisibleKey;
+    }
+    
     private boolean framesGlow;
     private boolean firstLoad = true;
     

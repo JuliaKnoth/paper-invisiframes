@@ -6,6 +6,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
@@ -32,8 +34,9 @@ public class InvisiFramesCommand implements CommandExecutor, TabCompleter
     {
         if(args.length == 0 || args[0].equalsIgnoreCase("help"))
         {
-            sender.sendMessage(Component.text("PaperInvisiframes v" + paperInvisiframes.getPluginMeta().getVersion(), NamedTextColor.GOLD));
+            sender.sendMessage(Component.text("PaperInvisiframes v" + paperInvisiframes.getPluginMeta().getVersion() + " by " + String.join(" & ", paperInvisiframes.getPluginMeta().getAuthors()), NamedTextColor.GOLD));
             sender.sendMessage(Component.text("Available subcommands:", NamedTextColor.GOLD));
+            sender.sendMessage(Component.text("/iframe get - Gives the player an invisible item frame", NamedTextColor.GOLD));
             sender.sendMessage(Component.text("/iframe reload - Reloads the config", NamedTextColor.GOLD));
             sender.sendMessage(Component.text("/iframe force-recheck - Forces all invisible frames to re-check their visibility", NamedTextColor.GOLD));
             return true;
@@ -60,6 +63,24 @@ public class InvisiFramesCommand implements CommandExecutor, TabCompleter
             sender.sendMessage(Component.text("Rechecked invisible item frames", NamedTextColor.GREEN));
             return true;
         }
+        else if(args[0].equalsIgnoreCase("get"))
+        {
+            if(!sender.hasPermission("paperinvisiframes.get"))
+            {
+                sendNoPermissionMessage(sender);
+                return true;
+            }
+            if(!(sender instanceof Player))
+            {
+                sender.sendMessage(Component.text("This command can only be run by a player", NamedTextColor.RED));
+                return true;
+            }
+            Player player = (Player) sender;
+            ItemStack item = PaperInvisiframes.generateInvisibleItemFrame();
+            player.getInventory().addItem(item);
+            sender.sendMessage(Component.text("You have been given an invisible item frame", NamedTextColor.GREEN));
+            return true;
+        }
         return false;
     }
     
@@ -72,6 +93,10 @@ public class InvisiFramesCommand implements CommandExecutor, TabCompleter
         }
         List<String> options = new ArrayList<>();
         options.add("help");
+        if(sender.hasPermission("paperinvisiframes.get"))
+        {
+            options.add("get");
+        }
         if(sender.hasPermission("paperinvisiframes.reload"))
         {
             options.add("reload");
