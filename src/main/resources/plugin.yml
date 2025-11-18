@@ -1,25 +1,24 @@
-name: SurvivalInvisiframes
+name: PaperInvisiframes
 version: ${project.version}
-api-version: 1.16
-main: com.darkender.plugins.survivalinvisiframes.SurvivalInvisiframes
-author: Techdoodle
+api-version: 1.20
+main: eu.b1o.mc.paperinvisiframes.PaperInvisiframes
+author: Techdoodle & Link_1503
+folia-supported: true
 commands:
   iframe:
-    permission: survivalinvisiframes.cmd
-    description: Gives the player an invisible item frame
-    usage: /iframe
+    permission: paperinvisiframes.cmd
+    description: Base command for PaperInvisiframes
+    usage: /iframe <reload|force-recheck>
 permissions:
-  survivalinvisiframes.place:
+  paperinvisiframes.place:
     default: true
-  survivalinvisiframes.craft:
+  paperinvisiframes.craft:
     default: true
-  survivalinvisiframes.cmd:
+  paperinvisiframes.cmd:
     default: op
-  survivalinvisiframes.reload:
+  paperinvisiframes.reload:
     default: op
-  survivalinvisiframes.forcerecheck:
+  paperinvisiframes.forcerecheck:
     default: op
-  survivalinvisiframes.get:
-    default: op
-  survivalinvisiframes.setitem:
+  paperinvisiframes.get:
     default: op

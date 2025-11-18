@@ -1,4 +1,4 @@
-package com.darkender.plugins.survivalinvisiframes;
+package eu.b1o.mc.paperinvisiframes;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Item;
