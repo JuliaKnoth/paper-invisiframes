@@ -9,6 +9,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.block.Block;
+import org.bukkit.event.block.BlockPistonExtendEvent;
+import org.bukkit.event.block.BlockPistonRetractEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
@@ -223,18 +227,17 @@ public class PaperInvisiframes extends JavaPlugin implements Listener
     }
     
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    private void onHangingBreak(HangingBreakEvent event)
-    {
-        if(!isFrameEntity(event.getEntity()) || !event.getEntity().getPersistentDataContainer().has(invisibleKey, PersistentDataType.BYTE))
-        {
+    private void onHangingBreak(HangingBreakEvent event) {
+        if (!isFrameEntity(event.getEntity()) || !event.getEntity().getPersistentDataContainer().has(invisibleKey, PersistentDataType.BYTE)) {
             return;
         }
 
-        event.setCancelled(true); // We will handle the drop ourselves
+        event.setCancelled(true);
 
         ItemFrame frame = (ItemFrame) event.getEntity();
-        Location loc = frame.getLocation();
-        World world = frame.getWorld();
+        if (frame.getItem().getType() != Material.AIR) {
+            frame.getWorld().dropItemNaturally(frame.getLocation(), frame.getItem());
+        }
 
         ItemStack drop;
         if (glowFrameEntity != null && frame.getType() == glowFrameEntity) {
@@ -246,8 +249,26 @@ public class PaperInvisiframes extends JavaPlugin implements Listener
             drop = generateInvisibleItemFrame();
         }
 
-        world.dropItemNaturally(loc, drop);
+        frame.getWorld().dropItemNaturally(frame.getLocation(), drop);
         frame.remove();
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    private void onEntityDamage(EntityDamageEvent event) {
+        if (event.getCause() != EntityDamageEvent.DamageCause.BLOCK_EXPLOSION &&
+                event.getCause() != EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) {
+            return;
+        }
+
+        if (!isFrameEntity(event.getEntity()) || !event.getEntity().getPersistentDataContainer().has(invisibleKey, PersistentDataType.BYTE)) {
+            return;
+        }
+
+        ItemFrame frame = (ItemFrame) event.getEntity();
+        if (frame.getItem().getType() != Material.AIR) {
+            frame.getWorld().dropItemNaturally(frame.getLocation(), frame.getItem());
+            frame.setItem(null);
+        }
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -299,6 +320,46 @@ public class PaperInvisiframes extends JavaPlugin implements Listener
         }
     }
     
+    @EventHandler(ignoreCancelled = true)
+    private void onPistonExtend(BlockPistonExtendEvent event) {
+        for (Block block : event.getBlocks()) {
+            checkPistonBlock(block);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    private void onPistonRetract(BlockPistonRetractEvent event) {
+        for (Block block : event.getBlocks()) {
+            checkPistonBlock(block);
+        }
+    }
+
+    private void checkPistonBlock(Block block) {
+        for (Entity entity : block.getChunk().getEntities()) {
+            if (isFrameEntity(entity) && entity.getPersistentDataContainer().has(invisibleKey, PersistentDataType.BYTE)) {
+                ItemFrame frame = (ItemFrame) entity;
+                if (frame.getLocation().getBlock().getRelative(frame.getAttachedFace()).equals(block)) {
+                    if (frame.getItem().getType() != Material.AIR) {
+                        frame.getWorld().dropItemNaturally(frame.getLocation(), frame.getItem());
+                        frame.setItem(null);
+                    }
+
+                    ItemStack drop;
+                    if (glowFrameEntity != null && frame.getType() == glowFrameEntity) {
+                        drop = generateInvisibleItemFrame().withType(glowFrame);
+                        ItemMeta meta = drop.getItemMeta();
+                        meta.displayName(Component.text("Glow Invisible Item Frame", NamedTextColor.WHITE));
+                        drop.setItemMeta(meta);
+                    } else {
+                        drop = generateInvisibleItemFrame();
+                    }
+                    frame.getWorld().dropItemNaturally(frame.getLocation(), drop);
+                    frame.remove();
+                }
+            }
+        }
+    }
+
     @EventHandler(ignoreCancelled = true)
     private void onCraft(PrepareItemCraftEvent event)
     {
