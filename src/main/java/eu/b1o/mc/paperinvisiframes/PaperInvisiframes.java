@@ -52,7 +52,7 @@ public class PaperInvisiframes extends JavaPlugin implements Listener
         invisibleGlowingRecipe = new NamespacedKey(this, "invisible-glowing-recipe");
         invisibleKey = new NamespacedKey(this, "invisible");
         
-        // Initialize bStats metrics
+        // Initialize bStats metrics - instance doesn't need to be stored for basic metrics
         Metrics metrics = new Metrics(this, BSTATS_PLUGIN_ID);
     
         try
