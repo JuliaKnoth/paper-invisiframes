@@ -2,6 +2,7 @@ package eu.b1o.mc.paperinvisiframes;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
@@ -49,6 +50,9 @@ public class PaperInvisiframes extends JavaPlugin implements Listener
         invisibleGlowingRecipe = new NamespacedKey(this, "invisible-glowing-recipe");
         invisibleKey = new NamespacedKey(this, "invisible");
         
+        // Initialize bStats metrics
+        int pluginId = 28927;
+        Metrics metrics = new Metrics(this, pluginId);
     
         try
         {
