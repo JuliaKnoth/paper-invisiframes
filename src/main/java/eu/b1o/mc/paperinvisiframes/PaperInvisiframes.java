@@ -27,6 +27,8 @@ import java.util.Iterator;
 
 public class PaperInvisiframes extends JavaPlugin implements Listener
 {
+    private static final int BSTATS_PLUGIN_ID = 28927;
+    
     private NamespacedKey invisibleRecipe;
     private NamespacedKey invisibleGlowingRecipe;
     private static NamespacedKey invisibleKey;
@@ -51,8 +53,7 @@ public class PaperInvisiframes extends JavaPlugin implements Listener
         invisibleKey = new NamespacedKey(this, "invisible");
         
         // Initialize bStats metrics
-        int pluginId = 28927;
-        Metrics metrics = new Metrics(this, pluginId);
+        Metrics metrics = new Metrics(this, BSTATS_PLUGIN_ID);
     
         try
         {
