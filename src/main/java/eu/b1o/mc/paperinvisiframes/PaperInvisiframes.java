@@ -2,6 +2,7 @@ package eu.b1o.mc.paperinvisiframes;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
@@ -64,6 +65,10 @@ public class PaperInvisiframes extends JavaPlugin implements Listener
         InvisiFramesCommand invisiFramesCommand = new InvisiFramesCommand(this);
         getCommand("iframe").setExecutor(invisiFramesCommand);
         getCommand("iframe").setTabCompleter(invisiFramesCommand);
+        
+        // Initialize bStats
+        int pluginId = 28927;
+        new Metrics(this, pluginId);
     }
     
     @Override
